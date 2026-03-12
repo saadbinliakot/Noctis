@@ -1,29 +1,28 @@
-// Purpose: Displays a list of friends and pending friend requests.
+// Purpose: Displays a list of friends with the updated card component.
 // TODO: Connect to backend friend API.
 
-import { User } from 'lucide-react';
+import FriendCard from './FriendCard';
 
 const mockFriends = [
-  { _id: '1', username: 'NightWalker', streakCount: 12 },
-  { _id: '2', username: 'VoidDreamer', streakCount: 7 },
-  { _id: '3', username: 'ShadowSeer', streakCount: 23 },
+  { _id: '1', username: 'NightWalker', streakCount: 12, visionsCount: 34 },
+  { _id: '2', username: 'VoidDreamer', streakCount: 7, visionsCount: 18 },
+  { _id: '3', username: 'ShadowSeer', streakCount: 23, visionsCount: 67 },
+  { _id: '4', username: 'LunarEcho', streakCount: 5, visionsCount: 12 },
 ];
 
 const FriendList = () => {
   return (
-    <div className="rounded-lg border border-primary/10 bg-card p-5 surface-depth">
-      <h3 className="mb-4 text-lg">Fellow Dreamers</h3>
-      <ul className="space-y-3">
-        {mockFriends.map((friend) => (
-          <li key={friend._id} className="flex items-center justify-between rounded-md bg-secondary px-3 py-2">
-            <div className="flex items-center gap-2 text-sm text-foreground">
-              <User className="h-4 w-4 text-primary" />
-              {friend.username}
-            </div>
-            <span className="text-xs text-muted-foreground">{friend.streakCount}🔥</span>
-          </li>
-        ))}
-      </ul>
+    <div className="space-y-3">
+      {mockFriends.map((friend, i) => (
+        <FriendCard
+          key={friend._id}
+          username={friend.username}
+          streakCount={friend.streakCount}
+          visionsCount={friend.visionsCount}
+          index={i}
+          onRemove={() => console.log('TODO: Remove friend', friend.username)}
+        />
+      ))}
     </div>
   );
 };
