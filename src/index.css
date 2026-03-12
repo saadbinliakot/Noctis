@@ -1,105 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=UnifrakturMaguntia&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 257 60% 4%;
+    --foreground: 257 15% 75%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 257 40% 7%;
+    --card-foreground: 257 15% 75%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 257 40% 7%;
+    --popover-foreground: 257 15% 75%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 275 90% 70%;
+    --primary-foreground: 275 90% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 257 40% 12%;
+    --secondary-foreground: 257 15% 75%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 257 40% 10%;
+    --muted-foreground: 257 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 275 90% 70%;
+    --accent-foreground: 275 90% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 35%;
+    --destructive-foreground: 0 0% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 275 90% 70%;
+    --input: 257 40% 12%;
+    --ring: 275 90% 70%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 257 60% 4%;
+    --sidebar-foreground: 257 15% 75%;
+    --sidebar-primary: 275 90% 70%;
+    --sidebar-primary-foreground: 275 90% 98%;
+    --sidebar-accent: 257 40% 10%;
+    --sidebar-accent-foreground: 257 15% 75%;
+    --sidebar-border: 275 90% 70%;
+    --sidebar-ring: 275 90% 70%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Custom NOCTIS tokens */
+    --surface: 257 40% 7%;
+    --glow-accent: 275 90% 70%;
+    --crimson: 0 70% 35%;
+    --void: 257 60% 2%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border/10;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
+    background-image:
+      radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+      radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 20px),
+      radial-gradient(white, rgba(255,255,255,.05) 2px, transparent 40px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+    animation: stars 180s linear infinite;
+  }
+
+  h1, h2, h3 {
+    @apply font-display tracking-wide;
+    text-shadow: 0 0 12px hsl(var(--glow-accent) / 0.3);
+  }
+
+  h1 { @apply text-4xl md:text-5xl; }
+  h2 { @apply text-2xl md:text-3xl; }
+  h3 { @apply text-xl md:text-2xl; }
+}
+
+@keyframes stars {
+  from { background-position: 0 0, 40px 60px, 130px 270px; }
+  to { background-position: -5000px 2500px, -5000px 2500px, -5000px 2500px; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes fog-drift {
+  0% { transform: translateX(-10%) translateY(0); opacity: 0.3; }
+  50% { transform: translateX(10%) translateY(-5%); opacity: 0.15; }
+  100% { transform: translateX(-10%) translateY(0); opacity: 0.3; }
+}
+
+@layer utilities {
+  .glow-text {
+    text-shadow: 0 0 8px hsl(var(--glow-accent) / 0.5), 0 0 2px hsl(var(--glow-accent) / 0.7);
+  }
+  .glow-border {
+    box-shadow: 0 0 15px hsl(var(--glow-accent) / 0.15);
+  }
+  .surface-depth {
+    box-shadow: inset 0 1px 2px 0 hsl(0 0% 0% / 0.3);
+  }
+  .fog-overlay {
+    position: relative;
+  }
+  .fog-overlay::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at 50% -20%, hsl(var(--surface) / 0.4), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: fog-drift 20s ease-in-out infinite;
   }
 }
