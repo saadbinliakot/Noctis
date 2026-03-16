@@ -1,5 +1,4 @@
-// Purpose: Dream activity hotspots by location.
-// TODO: Implement with a map library and real location data.
+// Purpose: Dream activity by location — clean list.
 
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
@@ -13,37 +12,27 @@ const mockLocations = [
   { city: 'Cairo', area: 'Giza', count: 9, intensity: 'low' },
 ];
 
-const intensityColors: Record<string, string> = {
-  high: 'text-primary glow-text',
-  medium: 'text-primary/70',
-  low: 'text-primary/50',
-};
-
 const LocationHeatmap = () => {
   return (
     <div className="noctis-card p-5 h-full">
-      <div className="mb-5 flex items-center gap-2">
-        <MapPin className="h-4 w-4 text-primary/60" />
-        <h3 className="text-base font-heading glow-text-subtle">Dream Hotspots</h3>
+      <div className="mb-4 flex items-center gap-2">
+        <MapPin className="h-4 w-4 text-primary/50" />
+        <h3 className="text-sm font-heading font-medium">Dream Hotspots</h3>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {mockLocations.map((loc, i) => (
           <motion.div
             key={`${loc.city}-${loc.area}`}
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.05 }}
-            className="flex items-center justify-between rounded-md bg-secondary/50 px-3 py-2.5 text-sm transition-colors hover:bg-secondary group"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.04 }}
+            className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm hover:bg-muted/50 transition-colors"
           >
             <div className="flex items-center gap-2">
-              <div className={`w-1.5 h-1.5 rounded-full ${loc.intensity === 'high' ? 'bg-primary animate-pulse' : loc.intensity === 'medium' ? 'bg-primary/60' : 'bg-primary/30'}`} />
-              <span className="text-foreground group-hover:text-primary transition-colors">
-                {loc.city}, {loc.area}
-              </span>
+              <div className={`w-1.5 h-1.5 rounded-full ${loc.intensity === 'high' ? 'bg-primary' : loc.intensity === 'medium' ? 'bg-primary/50' : 'bg-primary/25'}`} />
+              <span className="text-foreground">{loc.city}, {loc.area}</span>
             </div>
-            <span className={`text-xs font-heading ${intensityColors[loc.intensity]}`}>
-              {loc.count} visions
-            </span>
+            <span className="text-xs text-muted-foreground">{loc.count}</span>
           </motion.div>
         ))}
       </div>

@@ -1,4 +1,4 @@
-// Purpose: Displays a single dream/myth/paranormal post in the feed with floating card effect.
+// Purpose: Minimal dream post card for the feed.
 
 import { motion } from 'framer-motion';
 import type { Post } from '@/types/noctis';
@@ -10,10 +10,10 @@ interface PostCardProps {
   index?: number;
 }
 
-const categoryConfig: Record<string, { bg: string; text: string; label: string }> = {
-  dream: { bg: 'bg-primary/10', text: 'text-primary', label: '🌙 Dream' },
-  myth: { bg: 'bg-destructive/10', text: 'text-destructive', label: '📜 Myth' },
-  paranormal: { bg: 'bg-muted', text: 'text-muted-foreground', label: '👁️ Paranormal' },
+const categoryConfig: Record<string, { label: string }> = {
+  dream: { label: '🌙 Dream' },
+  myth: { label: '📜 Myth' },
+  paranormal: { label: '👁️ Paranormal' },
 };
 
 const PostCard = ({ post, index = 0 }: PostCardProps) => {
@@ -21,16 +21,14 @@ const PostCard = ({ post, index = 0 }: PostCardProps) => {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, type: 'spring', duration: 0.6, bounce: 0 }}
-      whileHover={{ y: -4 }}
-      className="noctis-card mb-6 p-6 animate-shadow-breathe"
-      style={{ animationDelay: `${index * 0.5}s` }}
+      transition={{ delay: index * 0.06, duration: 0.3 }}
+      className="noctis-card mb-4 p-5"
     >
-      {/* Header metadata */}
-      <div className="mb-3 flex flex-wrap items-center gap-3 text-xs uppercase tracking-widest text-muted-foreground">
-        <span className={`rounded-sm px-2 py-0.5 font-heading ${cat.bg} ${cat.text}`}>
+      {/* Meta */}
+      <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+        <span className="rounded-full bg-primary/8 px-2.5 py-0.5 text-primary text-xs font-medium">
           {cat.label}
         </span>
         <span className="flex items-center gap-1">
@@ -42,40 +40,39 @@ const PostCard = ({ post, index = 0 }: PostCardProps) => {
           {new Date(post.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
         {post.isLucid && (
-          <span className="flex items-center gap-1 text-primary">
+          <span className="flex items-center gap-1 text-accent">
             <Sparkles className="h-3 w-3" /> Lucid
           </span>
         )}
         {post.isRecurring && (
-          <span className="flex items-center gap-1 text-destructive">
+          <span className="flex items-center gap-1 text-muted-foreground">
             <RotateCw className="h-3 w-3" /> Recurring
           </span>
         )}
       </div>
 
       {/* Title */}
-      <h2 className="mb-2 text-xl font-heading glow-text-subtle">{post.title}</h2>
+      <h2 className="mb-2 text-lg font-heading font-medium text-foreground">{post.title}</h2>
 
       {/* Description */}
       {post.description && (
-        <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-3 font-body">
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-3">
           {post.description}
         </p>
       )}
 
       {/* Tags */}
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-4 flex flex-wrap gap-1.5">
         {post.tags.map((tag) => (
           <span
             key={tag}
-            className="rounded-sm border border-primary/10 bg-primary/5 px-2 py-0.5 text-xs text-primary/80 transition-colors hover:bg-primary/10"
+            className="rounded-full border border-border bg-muted/50 px-2.5 py-0.5 text-xs text-muted-foreground transition-colors hover:text-foreground hover:border-primary/20"
           >
             #{tag}
           </span>
         ))}
       </div>
 
-      {/* Reactions */}
       <ReactionButtons postId={post._id} />
     </motion.article>
   );

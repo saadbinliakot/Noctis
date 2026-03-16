@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,60 +6,57 @@
 
 @layer base {
   :root {
-    /* Core void palette */
-    --background: 260 50% 3%;
-    --foreground: 260 12% 72%;
+    /* Minimalist gothic palette */
+    --background: 240 3% 6%;
+    --foreground: 0 0% 96%;
 
-    --card: 260 35% 6%;
-    --card-foreground: 260 12% 72%;
+    --card: 240 5% 12%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 260 35% 6%;
-    --popover-foreground: 260 12% 72%;
+    --popover: 240 5% 12%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 263 70% 58%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 263 84% 58%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 260 30% 10%;
-    --secondary-foreground: 260 12% 72%;
+    --secondary: 240 3% 9%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 260 25% 9%;
-    --muted-foreground: 260 8% 40%;
+    --muted: 240 3% 15%;
+    --muted-foreground: 240 4% 46%;
 
-    --accent: 263 70% 58%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 263 58% 70%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 60% 30%;
-    --destructive-foreground: 0 0% 95%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 263 70% 58%;
-    --input: 260 30% 10%;
-    --ring: 263 70% 58%;
+    --border: 240 4% 18%;
+    --input: 240 3% 15%;
+    --ring: 263 84% 58%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* NOCTIS custom tokens */
-    --surface: 260 35% 6%;
-    --surface-elevated: 260 30% 9%;
-    --glow-purple: 263 70% 58%;
-    --glow-crimson: 0 60% 30%;
-    --void-deep: 260 50% 2%;
-    --midnight: 260 40% 5%;
-    --cosmic-purple: 270 45% 12%;
+    /* Custom tokens */
+    --surface: 240 5% 12%;
+    --surface-elevated: 240 5% 15%;
+    --glow-purple: 263 84% 58%;
+    --glow-crimson: 0 62% 50%;
 
-    --sidebar-background: 260 50% 3%;
-    --sidebar-foreground: 260 12% 72%;
-    --sidebar-primary: 263 70% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 260 30% 10%;
-    --sidebar-accent-foreground: 260 12% 72%;
-    --sidebar-border: 263 70% 58%;
-    --sidebar-ring: 263 70% 58%;
+    --sidebar-background: 240 3% 6%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 263 84% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3% 15%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 240 4% 18%;
+    --sidebar-ring: 263 84% 58%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border/10;
+    @apply border-border;
   }
 
   body {
@@ -68,232 +65,106 @@
   }
 
   h1, h2, h3, h4 {
-    @apply font-display tracking-wide;
-    text-shadow: 0 0 20px hsl(var(--glow-purple) / 0.25);
+    @apply font-heading tracking-wide text-foreground;
   }
 
-  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
-  h2 { @apply text-2xl md:text-3xl; }
-  h3 { @apply text-xl md:text-2xl; }
+  h1 { @apply text-3xl md:text-4xl font-semibold; }
+  h2 { @apply text-xl md:text-2xl font-medium; }
+  h3 { @apply text-lg md:text-xl font-medium; }
 
   ::selection {
-    background: hsl(var(--glow-purple) / 0.3);
+    background: hsl(var(--primary) / 0.2);
     color: hsl(var(--foreground));
   }
 }
 
-/* ============================================
-   BACKGROUND PARTICLES — ANIMATED STAR FIELD
-   ============================================ */
+/* Subtle background particles */
 @keyframes stars-drift {
-  from { background-position: 0 0, 40px 60px, 130px 270px, 70px 100px; }
-  to { background-position: -8000px 4000px, -6000px 3000px, -4000px 2000px, -3000px 1500px; }
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-/* ============================================
-   FOG / MIST OVERLAY
-   ============================================ */
-@keyframes fog-drift-slow {
-  0% { transform: translateX(-5%) translateY(0); opacity: 0.15; }
-  50% { transform: translateX(5%) translateY(-3%); opacity: 0.08; }
-  100% { transform: translateX(-5%) translateY(0); opacity: 0.15; }
-}
-
-@keyframes fog-drift-fast {
-  0% { transform: translateX(5%) translateY(-2%); opacity: 0.1; }
-  50% { transform: translateX(-5%) translateY(2%); opacity: 0.05; }
-  100% { transform: translateX(5%) translateY(-2%); opacity: 0.1; }
-}
-
-/* ============================================
-   CARD / SURFACE ANIMATIONS
-   ============================================ */
-@keyframes float-gentle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+  from { background-position: 0 0, 40px 60px, 130px 270px; }
+  to { background-position: -4000px 2000px, -3000px 1500px, -2000px 1000px; }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px hsl(var(--glow-purple) / 0.1); }
-  50% { box-shadow: 0 0 20px hsl(var(--glow-purple) / 0.25); }
+  0%, 100% { box-shadow: 0 0 4px hsl(var(--primary) / 0.05); }
+  50% { box-shadow: 0 0 12px hsl(var(--primary) / 0.1); }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes shadow-breathe {
-  0%, 100% { box-shadow: 0 4px 30px hsl(var(--void-deep) / 0.4), 0 0 0 1px hsl(var(--glow-purple) / 0.06); }
-  50% { box-shadow: 0 8px 40px hsl(var(--void-deep) / 0.6), 0 0 0 1px hsl(var(--glow-purple) / 0.12); }
-}
-
-/* ============================================
-   LOADING
-   ============================================ */
-@keyframes logo-pulse {
-  0%, 100% { opacity: 0.6; text-shadow: 0 0 20px hsl(var(--glow-purple) / 0.3); }
-  50% { opacity: 1; text-shadow: 0 0 40px hsl(var(--glow-purple) / 0.6), 0 0 80px hsl(var(--glow-purple) / 0.2); }
-}
-
-/* ============================================
-   PAGE TRANSITIONS
-   ============================================ */
-@keyframes page-fade-in {
-  from { opacity: 0; transform: translateY(12px); }
+@keyframes fade-in-page {
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
+@keyframes logo-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
 @layer utilities {
-  /* Starfield background */
+  /* Very subtle star particles */
   .bg-starfield {
     background-image:
-      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.25) 0%, transparent 100%),
-      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.15) 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 90% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.15) 0%, transparent 100%),
-      radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 45% 90%, rgba(255,255,255,0.25) 0%, transparent 100%);
-    background-size: 400px 400px, 300px 300px, 350px 350px, 280px 280px,
-                     320px 320px, 260px 260px, 380px 380px, 340px 340px;
-    animation: stars-drift 300s linear infinite;
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.06) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 100%);
+    background-size: 500px 500px, 400px 400px, 350px 350px;
+    animation: stars-drift 400s linear infinite;
   }
 
-  /* Fog overlays */
-  .fog-layer {
-    position: relative;
-  }
-  .fog-layer::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, hsl(var(--cosmic-purple) / 0.25) 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 80%, hsl(var(--glow-crimson) / 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 50%, hsl(var(--glow-purple) / 0.04) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-    animation: fog-drift-slow 30s ease-in-out infinite;
-  }
-  .fog-layer::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at 70% 20%, hsl(var(--glow-purple) / 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 30% 70%, hsl(var(--cosmic-purple) / 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-    animation: fog-drift-fast 20s ease-in-out infinite;
-  }
-
-  /* Glow text */
-  .glow-text {
-    text-shadow: 0 0 8px hsl(var(--glow-purple) / 0.5), 0 0 2px hsl(var(--glow-purple) / 0.7);
-  }
-  .glow-text-subtle {
-    text-shadow: 0 0 12px hsl(var(--glow-purple) / 0.2);
-  }
-  .glow-text-crimson {
-    text-shadow: 0 0 8px hsl(var(--glow-crimson) / 0.5), 0 0 2px hsl(var(--glow-crimson) / 0.6);
-  }
-
-  /* Card surfaces */
+  /* Minimal card */
   .noctis-card {
-    background: hsl(var(--surface));
-    border: 1px solid hsl(var(--glow-purple) / 0.08);
-    box-shadow: inset 0 1px 2px hsl(0 0% 0% / 0.3),
-                0 4px 24px hsl(var(--void-deep) / 0.4);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
     border-radius: var(--radius);
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.2s ease;
   }
   .noctis-card:hover {
-    border-color: hsl(var(--glow-purple) / 0.2);
-    box-shadow: inset 0 1px 2px hsl(0 0% 0% / 0.3),
-                0 8px 40px hsl(var(--void-deep) / 0.5),
-                0 0 30px hsl(var(--glow-purple) / 0.08);
-    transform: translateY(-2px);
+    border-color: hsl(var(--primary) / 0.2);
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.04);
   }
 
-  /* Floating animation */
-  .animate-float-gentle {
-    animation: float-gentle 6s ease-in-out infinite;
+  /* Glow text — very subtle */
+  .glow-text {
+    color: hsl(var(--foreground));
   }
+  .glow-text-subtle {
+    color: hsl(var(--foreground));
+  }
+  .glow-text-crimson {
+    color: hsl(var(--destructive));
+  }
+
   .animate-pulse-glow {
     animation: pulse-glow 4s ease-in-out infinite;
   }
-  .animate-shadow-breathe {
-    animation: shadow-breathe 5s ease-in-out infinite;
-  }
 
-  /* Page entrance */
   .page-enter {
-    animation: page-fade-in 0.5s ease-out forwards;
+    animation: fade-in-page 0.4s ease-out forwards;
   }
 
-  /* Loading logo */
   .animate-logo-pulse {
     animation: logo-pulse 2.5s ease-in-out infinite;
   }
 
-  /* Shimmer loading */
-  .shimmer {
-    background: linear-gradient(90deg,
-      hsl(var(--surface)) 0%,
-      hsl(var(--surface-elevated)) 50%,
-      hsl(var(--surface)) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
+  /* Buttons */
+  .btn-primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border: none;
+    transition: all 0.2s ease;
+  }
+  .btn-primary:hover {
+    background: hsl(var(--primary) / 0.85);
+    box-shadow: 0 0 16px hsl(var(--primary) / 0.15);
   }
 
-  /* Glow border on hover */
-  .glow-border-hover {
-    position: relative;
-  }
-  .glow-border-hover::after {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, hsl(var(--glow-purple) / 0.2), transparent, hsl(var(--glow-crimson) / 0.1));
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-  .glow-border-hover:hover::after {
-    opacity: 1;
-  }
-
-  /* Horror button */
-  .btn-horror {
-    background: linear-gradient(135deg, hsl(var(--glow-purple) / 0.15), hsl(var(--surface)));
-    border: 1px solid hsl(var(--glow-purple) / 0.2);
+  .btn-outline {
+    background: transparent;
+    border: 1px solid hsl(var(--border));
     color: hsl(var(--foreground));
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
   }
-  .btn-horror:hover {
-    background: linear-gradient(135deg, hsl(var(--glow-purple) / 0.25), hsl(var(--surface)));
-    border-color: hsl(var(--glow-purple) / 0.4);
-    box-shadow: 0 0 20px hsl(var(--glow-purple) / 0.15);
-  }
-
-  .btn-crimson {
-    background: linear-gradient(135deg, hsl(var(--glow-crimson) / 0.2), hsl(var(--surface)));
-    border: 1px solid hsl(var(--glow-crimson) / 0.2);
-    color: hsl(var(--destructive-foreground));
-    transition: all 0.3s ease;
-  }
-  .btn-crimson:hover {
-    background: linear-gradient(135deg, hsl(var(--glow-crimson) / 0.3), hsl(var(--surface)));
-    border-color: hsl(var(--glow-crimson) / 0.4);
-    box-shadow: 0 0 20px hsl(var(--glow-crimson) / 0.15);
+  .btn-outline:hover {
+    border-color: hsl(var(--primary) / 0.3);
+    color: hsl(var(--primary));
   }
 }
