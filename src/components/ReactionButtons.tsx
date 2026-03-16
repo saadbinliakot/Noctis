@@ -1,5 +1,4 @@
-// Purpose: Reaction buttons for posts with glow hover effects.
-// TODO: Connect to backend reaction API.
+// Purpose: Minimal reaction buttons for posts.
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -12,18 +11,13 @@ const reactions = [
   { type: 'myth', emoji: '🔮', label: 'Mythical' },
 ];
 
-interface ReactionButtonsProps {
-  postId: string;
-}
+interface ReactionButtonsProps { postId: string; }
 
 const ReactionButtons = ({ postId: _postId }: ReactionButtonsProps) => {
-  const [counts, setCounts] = useState<Record<string, number>>({
-    haunt: 3, relate: 7, fear: 1, lucid: 5, myth: 2,
-  });
+  const [counts, setCounts] = useState<Record<string, number>>({ haunt: 3, relate: 7, fear: 1, lucid: 5, myth: 2 });
   const [active, setActive] = useState<Set<string>>(new Set());
 
   const handleReact = (type: string) => {
-    // TODO: Call API to toggle reaction
     const next = new Set(active);
     if (next.has(type)) {
       next.delete(type);
@@ -36,17 +30,16 @@ const ReactionButtons = ({ postId: _postId }: ReactionButtonsProps) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       {reactions.map(({ type, emoji, label }) => (
         <motion.button
           key={type}
-          whileTap={{ scale: 0.9 }}
-          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => handleReact(type)}
-          className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs transition-all duration-300 ${
+          className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-all ${
             active.has(type)
-              ? 'border-primary/30 bg-primary/15 text-primary'
-              : 'border-primary/8 bg-secondary text-muted-foreground hover:border-primary/20 hover:text-foreground'
+              ? 'border-primary/25 bg-primary/8 text-primary'
+              : 'border-border text-muted-foreground hover:border-primary/15 hover:text-foreground'
           }`}
           title={label}
         >

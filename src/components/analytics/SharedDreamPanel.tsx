@@ -1,8 +1,7 @@
-// Purpose: Shared dream detection panel with crimson-themed alerts.
-// TODO: Implement shared dream detection algorithm and real-time alerts.
+// Purpose: Shared dream detections panel.
 
 import { motion } from 'framer-motion';
-import { Eye, AlertTriangle, Users, MapPin, Clock } from 'lucide-react';
+import { Eye, Users, MapPin, Clock } from 'lucide-react';
 import type { SharedDream } from '@/types/noctis';
 
 const mockSharedDreams: (SharedDream & { theme: string })[] = [
@@ -13,49 +12,30 @@ const mockSharedDreams: (SharedDream & { theme: string })[] = [
 
 const SharedDreamPanel = () => {
   return (
-    <div className="noctis-card p-5" style={{ borderColor: 'hsl(0 60% 30% / 0.12)' }}>
-      <div className="mb-5 flex items-center gap-2">
-        <Eye className="h-4 w-4 text-destructive" />
-        <h3 className="text-base font-heading glow-text-crimson">Shared Dream Detections</h3>
+    <div className="noctis-card p-5">
+      <div className="mb-4 flex items-center gap-2">
+        <Eye className="h-4 w-4 text-destructive/60" />
+        <h3 className="text-sm font-heading font-medium">Shared Dream Detections</h3>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {mockSharedDreams.map((dream, i) => (
           <motion.div
             key={dream._id}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="rounded-md border border-destructive/8 p-4 transition-colors hover:border-destructive/15"
-            style={{ background: 'linear-gradient(135deg, hsl(0 60% 30% / 0.04), transparent)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.08 }}
+            className="rounded-lg border border-border p-4 hover:border-destructive/15 transition-colors"
           >
-            <div className="flex items-start gap-3">
-              <AlertTriangle className="h-4 w-4 text-destructive/70 mt-0.5 shrink-0" />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground">{dream.theme}</p>
-                <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-3 w-3" />
-                    {dream.city}, {dream.area}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    {dream.userCount} dreamers
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {dream.detectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                </div>
-              </div>
+            <p className="text-sm font-medium text-foreground mb-2">{dream.theme}</p>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{dream.city}, {dream.area}</span>
+              <span className="flex items-center gap-1"><Users className="h-3 w-3" />{dream.userCount} dreamers</span>
+              <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{dream.detectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
             </div>
           </motion.div>
         ))}
       </div>
-
-      <p className="mt-4 text-[10px] text-muted-foreground italic text-center">
-        TODO: Dream pattern clustering and shared dream detection algorithm
-      </p>
     </div>
   );
 };

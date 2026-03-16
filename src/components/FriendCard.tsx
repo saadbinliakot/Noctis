@@ -1,4 +1,4 @@
-// Purpose: Individual friend card showing user info and actions.
+// Purpose: Minimal friend card.
 
 import { motion } from 'framer-motion';
 import { User, MessageCircle, X } from 'lucide-react';
@@ -15,33 +15,23 @@ interface FriendCardProps {
 const FriendCard = ({ username, streakCount, visionsCount, index = 0, onRemove }: FriendCardProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05, type: 'spring', duration: 0.4, bounce: 0 }}
-      className="noctis-card p-4 flex items-center gap-4"
+      transition={{ delay: index * 0.04 }}
+      className="flex items-center gap-3 rounded-lg border border-border bg-secondary/30 p-3 hover:border-primary/15 transition-colors"
     >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/15 bg-secondary">
-        <User className="h-5 w-5 text-primary/70" />
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
+        <User className="h-4 w-4 text-muted-foreground" />
       </div>
-
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-foreground truncate">{username}</p>
-        <p className="text-xs text-muted-foreground">
-          {visionsCount} visions · {streakCount}🔥 streak
-        </p>
+        <p className="text-sm font-medium text-foreground truncate">{username}</p>
+        <p className="text-xs text-muted-foreground">{visionsCount} dreams · {streakCount}🔥</p>
       </div>
-
-      <div className="flex gap-1.5">
-        <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-primary" title="Message">
+      <div className="flex gap-1">
+        <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-foreground">
           <MessageCircle className="h-3.5 w-3.5" />
         </Button>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="h-8 w-8 text-muted-foreground hover:text-destructive"
-          title="Remove friend"
-          onClick={onRemove}
-        >
+        <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-destructive" onClick={onRemove}>
           <X className="h-3.5 w-3.5" />
         </Button>
       </div>

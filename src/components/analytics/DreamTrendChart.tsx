@@ -1,5 +1,4 @@
-// Purpose: Dream symbol trending chart with bar visualization.
-// TODO: Implement with Recharts using real data from analytics API.
+// Purpose: Trending dream symbols — clean bar chart.
 
 import { motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
@@ -19,40 +18,31 @@ const DreamTrendChart = () => {
 
   return (
     <div className="noctis-card p-5 h-full">
-      <div className="mb-5 flex items-center gap-2">
-        <TrendingUp className="h-4 w-4 text-primary/60" />
-        <h3 className="text-base font-heading glow-text-subtle">Trending Symbols</h3>
+      <div className="mb-4 flex items-center gap-2">
+        <TrendingUp className="h-4 w-4 text-primary/50" />
+        <h3 className="text-sm font-heading font-medium">Trending Symbols</h3>
       </div>
       <div className="space-y-3">
         {mockTrends.map((trend, i) => (
-          <motion.div
-            key={trend.symbol}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.05 }}
-            className="group"
-          >
+          <div key={trend.symbol}>
             <div className="flex items-center justify-between mb-1">
-              <span className="text-sm text-foreground group-hover:text-primary transition-colors">{trend.symbol}</span>
+              <span className="text-sm text-foreground">{trend.symbol}</span>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{trend.count}</span>
-                <span className={`text-[10px] ${trend.delta.startsWith('+') ? 'text-primary/70' : 'text-destructive/70'}`}>
+                <span className={`text-[10px] ${trend.delta.startsWith('+') ? 'text-primary/60' : 'text-destructive/60'}`}>
                   {trend.delta}
                 </span>
               </div>
             </div>
-            <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
+            <div className="h-1 rounded-full bg-muted overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${(trend.count / maxCount) * 100}%` }}
-                transition={{ delay: 0.2 + i * 0.05, duration: 0.6 }}
-                className="h-full rounded-full"
-                style={{
-                  background: 'linear-gradient(90deg, hsl(263 70% 58% / 0.4), hsl(263 70% 58% / 0.7))',
-                }}
+                transition={{ delay: 0.15 + i * 0.04, duration: 0.5 }}
+                className="h-full rounded-full bg-primary/40"
               />
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </div>
