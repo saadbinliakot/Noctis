@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Home from "@/pages/Home";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
 import NightFeed from "@/pages/NightFeed";
 import SubmitDream from "@/pages/SubmitDream";
 import Friends from "@/pages/Friends";
@@ -13,6 +15,7 @@ import Profile from "@/pages/Profile";
 import Analytics from "@/pages/Analytics";
 import DreamMap from "@/pages/DreamMap";
 import NotFound from "@/pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
 const queryClient = new QueryClient();
 
@@ -25,13 +28,62 @@ const App = () => (
         <BrowserRouter>
           <Navbar />
           <Routes>
+            {/* Public routes */}
             <Route path="/" element={<Home />} />
-            <Route path="/feed" element={<NightFeed />} />
-            <Route path="/submit" element={<SubmitDream />} />
-            <Route path="/friends" element={<Friends />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/dreammap" element={<DreamMap />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            {/* Protected routes */}
+            <Route
+              path="/feed"
+              element={
+                <ProtectedRoute>
+                  <NightFeed />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/submit"
+              element={
+                <ProtectedRoute>
+                  <SubmitDream />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/friends"
+              element={
+                <ProtectedRoute>
+                  <Friends />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute>
+                  <Analytics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dreammap"
+              element={
+                <ProtectedRoute>
+                  <DreamMap />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Catch all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

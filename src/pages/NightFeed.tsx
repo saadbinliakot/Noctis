@@ -1,9 +1,9 @@
-// Purpose: Clean vertical feed of dream posts.
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import PostCard from '@/components/PostCard';
 import SharedDreamAlert from '@/components/SharedDreamAlert';
+import { api } from '@/services/api';
 import type { Post } from '@/types/noctis';
 
 const mockPosts: Post[] = [
@@ -42,7 +42,32 @@ const mockPosts: Post[] = [
 const trendingTags = ['shadow-figure', 'lucid', 'water', 'falling', 'cathedral', 'mechanical', 'omen'];
 
 const NightFeed = () => {
-  const [posts] = useState<Post[]>(mockPosts);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchPosts = async () => {
+    try {
+      setIsLoading(true);
+      const data = await api.get('/posts');
+      setPosts(data);
+    } catch (error) {
+      console.error('Failed to fetch feed posts:', error);
+      setPosts([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+
+    const onDreamSubmitted = () => {
+      fetchPosts();
+    };
+
+    window.addEventListener('dreamSubmitted', onDreamSubmitted);
+    return () => window.removeEventListener('dreamSubmitted', onDreamSubmitted);
+  }, []);
 
   return (
     <div className="min-h-screen bg-starfield pt-14">
@@ -55,9 +80,15 @@ const NightFeed = () => {
               <p className="text-sm text-muted-foreground">Recent dreams and experiences</p>
             </motion.div>
 
-            {posts.map((post, i) => (
-              <PostCard key={post._id} post={post} index={i} />
-            ))}
+            {isLoading ? (
+              <div className="p-6 text-center text-muted-foreground">Loading feed...</div>
+            ) : posts.length === 0 ? (
+              <div className="p-6 text-center text-muted-foreground">No dreams yet. Be the first to share!</div>
+            ) : (
+              posts.map((post, i) => (
+                <PostCard key={post._id} post={post} index={i} />
+              ))
+            )}
           </div>
 
           {/* Sidebar */}

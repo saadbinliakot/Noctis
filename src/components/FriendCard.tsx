@@ -1,4 +1,3 @@
-// Purpose: Minimal friend card.
 
 import { motion } from 'framer-motion';
 import { User, MessageCircle, X } from 'lucide-react';

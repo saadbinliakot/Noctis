@@ -1,4 +1,3 @@
-// Purpose: Landing page for NOCTIS — minimal gothic hero.
 
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';

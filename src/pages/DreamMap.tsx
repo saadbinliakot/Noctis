@@ -1,4 +1,3 @@
-// Purpose: Dream location map placeholder.
 
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';

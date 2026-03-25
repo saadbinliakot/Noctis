@@ -1,4 +1,3 @@
-// Purpose: Friend search with clean UI.
 
 import { useState } from 'react';
 import { Search, UserPlus } from 'lucide-react';

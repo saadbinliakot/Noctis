@@ -22,11 +22,18 @@ export interface Post {
   tags: string[];
   city: string;
   area: string;
+  location?: string;
+  latitude?: number;
+  longitude?: number;
+  locationType?: string;
+  division?: string;
+  userId?: string;
+  visibility: PostVisibility;
   isLucid: boolean;
   isRecurring: boolean;
-  visibility: PostVisibility;
   timestamp: Date;
-  authorId: string;
+  authorId?: string;
+  authorName?: string;
 }
 
 export interface Reaction {

@@ -1,73 +1,103 @@
-# Welcome to your Lovable project
+# Noctis Night Feed
 
-## Project info
+A dream-sharing platform where users can submit, share, and explore dreams with location-based insights.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- User authentication and profiles
+- Submit dreams with location data
+- Real-time feed of shared dreams
+- Analytics dashboard with dream trends and location heatmaps
+- Friend system for connecting with other users
+- Badge system for achievements
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui
+- **Backend**: Express.js, MongoDB Atlas, JWT authentication
+- **Testing**: Playwright (e2e), Vitest (unit)
+- **Deployment**: Vite build for static hosting
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v18 or higher)
+- npm or bun
+- MongoDB Atlas account (for database)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd noctis-night-feed
+   ```
 
-Follow these steps:
+2. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Install backend dependencies:
+   ```bash
+   cd backend
+   npm install
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. Set up environment variables:
+   - Copy `backend/.env.example` to `backend/.env`
+   - Configure your MongoDB connection string and JWT secret
 
-# Step 3: Install the necessary dependencies.
-npm i
+5. Start the backend server:
+   ```bash
+   cd backend
+   npm start
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+6. In a new terminal, start the frontend development server:
+   ```bash
+   npm run dev
+   ```
+
+7. Open [http://localhost:8080](http://localhost:8080) in your browser
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm test` - Run unit tests with Vitest
+- `npx playwright test` - Run end-to-end tests
+
+### Project Structure
+
+```
+noctis-night-feed/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/         # Page components
+│   ├── services/      # API service functions
+│   ├── types/         # TypeScript type definitions
+│   └── test/          # Test files
+├── backend/           # Express.js server
+│   ├── controllers/   # Route controllers
+│   ├── models/        # MongoDB models
+│   ├── routes/        # API routes
+│   └── middleware/    # Custom middleware
+└── public/            # Static assets
 ```
 
-**Edit a file directly in GitHub**
+## Contributing
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-**Use GitHub Codespaces**
+## License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project is licensed under the MIT License.

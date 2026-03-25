@@ -1,4 +1,3 @@
-// Purpose: Clean analytics dashboard.
 
 import { motion } from 'framer-motion';
 import DreamTrendChart from '@/components/analytics/DreamTrendChart';

@@ -1,4 +1,4 @@
-// Purpose: Minimal reaction buttons for posts.
+
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';

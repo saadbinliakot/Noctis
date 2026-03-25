@@ -1,4 +1,3 @@
-// Purpose: Friend request card with accept/reject.
 
 import { motion } from 'framer-motion';
 import { User, Check, X } from 'lucide-react';

@@ -1,32 +1,72 @@
-// Purpose: Authentication context provider.
-// TODO: Implement actual authentication logic with JWT tokens.
+import { createContext, useContext, useState, useEffect } from "react";
+import { api } from "@/services/api";
 
-import React, { createContext, useContext, useState, type ReactNode } from 'react';
-import type { User } from '@/types/noctis';
+const AuthContext = createContext<any>(null);
 
-interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
-}
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user") || "null")
+  );
+  const [isLoading, setIsLoading] = useState(true);
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+  useEffect(() => {
+    // Check if user is already logged in
+    const token = localStorage.getItem("token");
+    if (token) {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+    setIsLoading(false);
+  }, []);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await api.post("/auth/login", { email, password });
 
-  // TODO: Implement actual login with API call
-  const login = async (_email: string, _password: string) => {
-    console.log('TODO: Implement login');
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+
+      setUser(res.user);
+      return res.user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const register = async (
+    username: string,
+    email: string,
+    password: string
+  ) => {
+    try {
+      const res = await api.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+
+      setUser(res.user);
+      return res.user;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
+  const isAdmin = user?.role === "admin";
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isLoading, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
@@ -34,6 +74,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within AuthProvider');
+
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
+
   return context;
 };

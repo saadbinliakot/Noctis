@@ -1,4 +1,3 @@
-// Purpose: Minimal loading screen.
 
 import { motion } from 'framer-motion';
 

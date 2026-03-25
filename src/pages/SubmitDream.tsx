@@ -1,4 +1,3 @@
-// Purpose: Dream submission page.
 
 import { motion } from 'framer-motion';
 import DreamForm from '@/components/DreamForm';

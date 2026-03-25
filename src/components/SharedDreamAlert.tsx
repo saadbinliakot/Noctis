@@ -1,4 +1,4 @@
-// Purpose: Shared dream detection alert — clean minimal card.
+
 
 import { motion } from 'framer-motion';
 import { AlertTriangle, Users, MapPin, Clock } from 'lucide-react';

@@ -1,28 +1,75 @@
-// Purpose: Badge display panel — clean grid.
 
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import type { Badge } from '@/types/noctis';
-
-const mockBadges: Badge[] = [
-  { _id: '1', badgeName: 'First Vision', description: 'Submit your first dream', criteria: 'first_post' },
-  { _id: '2', badgeName: 'Night Owl', description: '7-day posting streak', criteria: 'streak_7' },
-  { _id: '3', badgeName: 'Lucid Master', description: '10 lucid dreams', criteria: 'lucid_10' },
-  { _id: '4', badgeName: 'Shared Dreamer', description: 'Part of a shared dream', criteria: 'shared_dream' },
-  { _id: '5', badgeName: 'Void Walker', description: '30-day streak', criteria: 'streak_30' },
-  { _id: '6', badgeName: 'Myth Keeper', description: '5 myths submitted', criteria: 'myth_5' },
-];
+import { useAuth } from '@/context/AuthContext';
+import { api } from '@/services/api';
 
 const badgeEmojis: Record<string, string> = {
-  first_post: '🔮', streak_7: '🦉', lucid_10: '✨',
-  shared_dream: '🌀', streak_30: '🕳️', myth_5: '📜',
+  first_post: '🔮',
+  streak_7: '🦉',
+  lucid_10: '✨',
+  shared_dream: '🌀',
+  streak_30: '🕳️',
+  myth_5: '📜',
 };
 
 const BadgePanel = () => {
+  const { user } = useAuth();
+  const [userBadges, setUserBadges] = useState<Badge[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserBadges = async () => {
+      if (!user?.badges) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        // temporary
+        const badges: Badge[] = user.badges.map((badgeName, index) => ({
+          _id: `badge_${index}`,
+          badgeName: badgeName,
+          description: `Earned the ${badgeName} badge`,
+          criteria: badgeName.toLowerCase().replace(/\s+/g, '_')
+        }));
+
+        setUserBadges(badges);
+      } catch (error) {
+        console.error('Failed to fetch user badges:', error);
+        setUserBadges([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserBadges();
+  }, [user]);
+
+  if (isLoading) {
+    return (
+      <div className="noctis-card p-5">
+        <h3 className="mb-4 text-sm font-heading font-medium">Badges</h3>
+        <div className="text-center text-muted-foreground text-sm">Loading badges...</div>
+      </div>
+    );
+  }
+
+  if (userBadges.length === 0) {
+    return (
+      <div className="noctis-card p-5">
+        <h3 className="mb-4 text-sm font-heading font-medium">Badges</h3>
+        <div className="text-center text-muted-foreground text-sm">No badges earned yet</div>
+      </div>
+    );
+  }
+
   return (
     <div className="noctis-card p-5">
       <h3 className="mb-4 text-sm font-heading font-medium">Badges</h3>
       <div className="grid grid-cols-2 gap-2">
-        {mockBadges.map((badge, i) => (
+        {userBadges.map((badge, i) => (
           <motion.div
             key={badge._id}
             initial={{ opacity: 0, scale: 0.95 }}

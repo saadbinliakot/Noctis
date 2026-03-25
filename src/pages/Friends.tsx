@@ -1,4 +1,3 @@
-// Purpose: Friends page with search, requests, and friend list.
 
 import { motion } from 'framer-motion';
 import FriendSearch from '@/components/FriendSearch';

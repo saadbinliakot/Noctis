@@ -1,4 +1,3 @@
-// Purpose: Minimal dream post card for the feed.
 
 import { motion } from 'framer-motion';
 import type { Post } from '@/types/noctis';
@@ -33,11 +32,14 @@ const PostCard = ({ post, index = 0 }: PostCardProps) => {
         </span>
         <span className="flex items-center gap-1">
           <MapPin className="h-3 w-3" />
-          {post.city}, {post.area}
+          {post.location && post.location !== 'undefined' ? post.location : `${post.city || 'Unknown'}, ${post.area || 'Unknown'}`}
+        </span>
+        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+          By <strong className="text-foreground">{(post as any).authorName || (post.userId as any)?.username || 'Unknown'}</strong>
         </span>
         <span className="flex items-center gap-1">
           <Clock className="h-3 w-3" />
-          {new Date(post.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          {new Date(post.timestamp || (post as any).createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
         {post.isLucid && (
           <span className="flex items-center gap-1 text-accent">

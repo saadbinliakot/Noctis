@@ -1,38 +1,27 @@
-// Purpose: API service layer for making HTTP requests to the backend.
-// TODO: Replace with actual API base URL when backend is deployed.
-
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export const api = {
-  async get<T>(endpoint: string): Promise<T> {
-    const res = await fetch(`${API_BASE_URL}${endpoint}`);
-    if (!res.ok) throw new Error(`GET ${endpoint} failed`);
-    return res.json();
-  },
+  async request(endpoint, method = "GET", data) {
+    const token = localStorage.getItem("token");
 
-  async post<T>(endpoint: string, data: unknown): Promise<T> {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: data ? JSON.stringify(data) : undefined,
     });
-    if (!res.ok) throw new Error(`POST ${endpoint} failed`);
+
+    if (!res.ok) throw new Error("Request failed");
     return res.json();
   },
 
-  async put<T>(endpoint: string, data: unknown): Promise<T> {
-    const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) throw new Error(`PUT ${endpoint} failed`);
-    return res.json();
+  get(endpoint) {
+    return this.request(endpoint);
   },
 
-  async delete<T>(endpoint: string): Promise<T> {
-    const res = await fetch(`${API_BASE_URL}${endpoint}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error(`DELETE ${endpoint} failed`);
-    return res.json();
+  post(endpoint, data) {
+    return this.request(endpoint, "POST", data);
   },
 };
