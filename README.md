@@ -52,11 +52,12 @@ A dream-sharing platform where users can submit, share, and explore dreams with 
 5. Start the backend server:
    ```bash
    cd backend
-   npm start
+   node server.js
    ```
 
 6. In a new terminal, start the frontend development server:
    ```bash
+   cd noctis-night-feed
    npm run dev
    ```
 
