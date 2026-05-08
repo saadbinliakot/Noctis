@@ -17,6 +17,7 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 import badgeRoutes from "./routes/badgeRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
+import leaderboardRoutes from "./routes/leaderboardRoutes.js";
 
 dotenv.config();
 
@@ -113,6 +114,7 @@ const startServer = async () => {
   app.use("/api/badges", badgeRoutes);
   app.use("/api/chat", chatRoutes);
   app.use("/api/comments", commentRoutes);
+  app.use("/api/leaderboard", leaderboardRoutes);
 
   // Health / info
   app.get("/", (req, res) => {

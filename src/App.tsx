@@ -14,6 +14,7 @@ import SubmitDream from "@/pages/SubmitDream";
 import Friends from "@/pages/Friends";
 import Profile from "@/pages/Profile";
 import Analytics from "@/pages/Analytics";
+import Leaderboard from "@/pages/Leaderboard";
 import Chat from "@/pages/Chat";
 import DreamMap from "@/pages/DreamMap";
 import Notifications from "@/pages/Notifications";
@@ -83,6 +84,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Analytics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/leaderboard"
+              element={
+                <ProtectedRoute>
+                  <Leaderboard />
                 </ProtectedRoute>
               }
             />

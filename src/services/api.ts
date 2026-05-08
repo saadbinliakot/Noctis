@@ -127,4 +127,22 @@ export const api = {
       api.put(`/comments/${commentId}`, { content }),
     getCommentCount: (postId) => api.get(`/comments/post/${postId}/count`),
   },
+
+  // Leaderboard-related APIs
+  leaderboard: {
+    getOverallLeaderboard: (limit = 20) =>
+      api.get(`/leaderboard/overall?limit=${limit}`),
+    getPostLeaderboard: (limit = 20) =>
+      api.get(`/leaderboard/posts?limit=${limit}`),
+    getEngagementLeaderboard: (limit = 20) =>
+      api.get(`/leaderboard/engagement?limit=${limit}`),
+    getBadgeLeaderboard: (limit = 20) =>
+      api.get(`/leaderboard/badges?limit=${limit}`),
+    getFriendsLeaderboard: (limit = 20) =>
+      api.get(`/leaderboard/friends?limit=${limit}`),
+    getLucidDreamLeaderboard: (limit = 20) =>
+      api.get(`/leaderboard/lucid-dreams?limit=${limit}`),
+    getUserRank: (userId, category = "overall") =>
+      api.get(`/leaderboard/rank/${userId}?category=${category}`),
+  },
 };

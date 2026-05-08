@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Bell, Moon, Eye, PenTool, BarChart3, User, MapPin, Users, MessageSquare, Menu, X, LogOut, LogIn } from 'lucide-react';
+import { Bell, Moon, Eye, PenTool, BarChart3, User, MapPin, Users, MessageSquare, Menu, X, LogOut, LogIn, Trophy } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
@@ -13,6 +13,7 @@ const protectedItems = [
   { path: '/friends', label: 'Friends', icon: Users },
   { path: '/chat', label: 'Chat', icon: MessageSquare },
   { path: '/analytics', label: 'Analytics', icon: BarChart3 },
+  { path: '/leaderboard', label: 'Leaderboard', icon: Trophy },
   { path: '/dreammap', label: 'Map', icon: MapPin },
   { path: '/profile', label: 'Profile', icon: User },
 ];
