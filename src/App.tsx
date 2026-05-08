@@ -16,6 +16,7 @@ import Analytics from "@/pages/Analytics";
 import DreamMap from "@/pages/DreamMap";
 import NotFound from "@/pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoutes";
+import TrendingTags from "./components/TrendingTags";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/trending" element={<TrendingTags />} />
 
             {/* Protected routes */}
             <Route
