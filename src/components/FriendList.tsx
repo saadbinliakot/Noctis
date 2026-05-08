@@ -1,8 +1,4 @@
-
-import { useState, useEffect } from 'react';
-import FriendCard from './FriendCard';
-import { useAuth } from '@/context/AuthContext';
-import { api } from '@/services/api';
+import FriendCard from "./FriendCard";
 
 interface Friend {
   _id: string;
@@ -11,41 +7,20 @@ interface Friend {
   visionsCount: number;
 }
 
-const FriendList = () => {
-  const { user } = useAuth();
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface FriendListProps {
+  friends?: Friend[];
+  onRemoveFriend?: (friendId: string) => Promise<void>;
+  onChatFriend?: (friendId: string) => void;
+}
 
-  useEffect(() => {
-    const fetchFriends = async () => {
-      if (!user) {
-        setIsLoading(false);
-        return;
-      }
+const FriendList = ({
+  friends = [],
+  onRemoveFriend,
+  onChatFriend,
+}: FriendListProps) => {
 
-      try {
-        const response = await api.get(`/friends/user/${user.id}`);
-        setFriends(response);
-      } catch (error) {
-        console.error('Failed to fetch friends:', error);
-        setFriends([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
-    fetchFriends();
-  }, [user]);
-
-  if (isLoading) {
-    return (
-      <div className="text-center text-muted-foreground text-sm py-4">
-        Loading friends...
-      </div>
-    );
-  }
-
-  if (friends.length === 0) {
+  if (!friends || friends.length === 0) {
     return (
       <div className="text-center text-muted-foreground text-sm py-4">
         No friends yet
@@ -53,17 +28,26 @@ const FriendList = () => {
     );
   }
 
+  const handleRemove = (friendId: string, username: string) => {
+    if (confirm(`Remove ${username} from friends?`)) {
+      onRemoveFriend?.(friendId);
+    }
+  };
+
   return (
     <div className="space-y-3">
       {friends.map((friend, i) => (
         <FriendCard
           key={friend._id}
+          friendId={friend._id}
           username={friend.username}
           streakCount={friend.streakCount}
           visionsCount={friend.visionsCount}
           index={i}
-          onRemove={() => console.log('TODO: Remove friend', friend.username)}
+          onRemove={() => handleRemove(friend._id, friend.username)}
+          onChat={() => onChatFriend?.(friend._id)}
         />
+
       ))}
     </div>
   );

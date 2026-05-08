@@ -21,8 +21,30 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    streakCount: {
+      type: Number,
+      default: 0,
+    },
+    lastPostDate: {
+      type: Date,
+      default: null,
+    },
+    badges: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Badge",
+      },
+    ],
+    totalPosts: {
+      type: Number,
+      default: 0,
+    },
+    totalFriends: {
+      type: Number,
+      default: 0,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("User", userSchema);

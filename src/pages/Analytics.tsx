@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import DreamTrendChart from '@/components/analytics/DreamTrendChart';
 import LocationHeatmap from '@/components/analytics/LocationHeatmap';
 import SharedDreamPanel from '@/components/analytics/SharedDreamPanel';
-import SharedDreamAlert from '@/components/SharedDreamAlert';
 
 const Analytics = () => {
   return (
@@ -13,15 +12,6 @@ const Analytics = () => {
           <h1 className="text-2xl font-heading font-semibold mb-1">Analytics</h1>
           <p className="text-sm text-muted-foreground">Patterns in the collective unconscious</p>
         </motion.div>
-
-        <div className="mb-6">
-          <SharedDreamAlert
-            theme="Falling"
-            location="Dhaka – Gulshan"
-            userCount={5}
-            timeWindow="Last 12 hours"
-          />
-        </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <DreamTrendChart />

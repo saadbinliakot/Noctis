@@ -1,14 +1,17 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Eye, PenTool, BarChart3, User, MapPin, Users, Menu, X, LogOut, LogIn } from 'lucide-react';
+import { Bell, Moon, Eye, PenTool, BarChart3, User, MapPin, Users, MessageSquare, Menu, X, LogOut, LogIn } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useSocket } from '@/context/SocketContext';
+import NotificationDropdown from '@/components/NotificationDropdown';
 
 const protectedItems = [
   { path: '/feed', label: 'Feed', icon: Eye },
   { path: '/submit', label: 'Submit', icon: PenTool },
   { path: '/friends', label: 'Friends', icon: Users },
+  { path: '/chat', label: 'Chat', icon: MessageSquare },
   { path: '/analytics', label: 'Analytics', icon: BarChart3 },
   { path: '/dreammap', label: 'Map', icon: MapPin },
   { path: '/profile', label: 'Profile', icon: User },
@@ -22,6 +25,7 @@ const Navbar = () => {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { unreadCount } = useSocket();
 
   const navItems = user ? [...publicItems, ...protectedItems] : publicItems;
 
@@ -56,6 +60,8 @@ const Navbar = () => {
               </Link>
             );
           })}
+
+          {user && <NotificationDropdown />}
 
           {/* Auth buttons */}
           {user ? (
@@ -105,6 +111,20 @@ const Navbar = () => {
             className="md:hidden border-t border-border bg-background/95 backdrop-blur-lg overflow-hidden"
           >
             <div className="px-4 py-2 space-y-0.5">
+              <Link
+                to="/notifications"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              >
+                <Bell className="h-4 w-4" />
+                Notifications
+                {unreadCount > 0 && (
+                  <span className="rounded-full bg-red-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
+                )}
+              </Link>
+
               {navItems.map(({ path, label, icon: Icon }) => {
                 const isActive = location.pathname === path;
                 return (

@@ -1,11 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { api } from "@/services/api";
 
-const AuthContext = createContext<any>(null);
+export const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "null")
+    JSON.parse(localStorage.getItem("user") || "null"),
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (
     username: string,
     email: string,
-    password: string
+    password: string,
   ) => {
     try {
       const res = await api.post("/auth/register", {
@@ -66,7 +66,9 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = user?.role === "admin";
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, isLoading, isAdmin }}>
+    <AuthContext.Provider
+      value={{ user, login, register, logout, isLoading, isAdmin }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -16,7 +16,7 @@ const postSchema = new mongoose.Schema(
 
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     location: String,
@@ -45,10 +45,21 @@ const postSchema = new mongoose.Schema(
       enum: ["public", "friends", "anonymous"],
       default: "public",
     },
+
+    status: {
+      type: String,
+      enum: ["published", "queued", "archived"],
+      default: "published",
+    },
+
+    scheduledPublishTime: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Post = mongoose.model("Post", postSchema);
