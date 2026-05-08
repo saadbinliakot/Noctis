@@ -18,6 +18,7 @@ import badgeRoutes from "./routes/badgeRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import leaderboardRoutes from "./routes/leaderboardRoutes.js";
+import sharedDreamRoutes from "./routes/sharedDreamRoutes.js";
 
 dotenv.config();
 
@@ -115,6 +116,7 @@ const startServer = async () => {
   app.use("/api/chat", chatRoutes);
   app.use("/api/comments", commentRoutes);
   app.use("/api/leaderboard", leaderboardRoutes);
+  app.use("/api/shared-dreams", sharedDreamRoutes);
 
   // Health / info
   app.get("/", (req, res) => {

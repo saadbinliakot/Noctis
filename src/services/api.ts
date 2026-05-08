@@ -117,6 +117,36 @@ export const api = {
     getLucidAnalytics: () => api.get("/analytics/lucid"),
   },
 
+  // Shared Dreams APIs
+  sharedDreams: {
+    detectSharedDreams: (timeWindow = 7) =>
+      api.get(`/shared-dreams/detect?timeWindow=${timeWindow}`),
+    getAllSharedDreams: (limit = 20, city = null, theme = null) => {
+      let url = `/shared-dreams?limit=${limit}`;
+      if (city) url += `&city=${city}`;
+      if (theme) url += `&theme=${theme}`;
+      return api.get(url);
+    },
+    getTrendingSharedDreams: (limit = 10, timeWindow = 7) =>
+      api.get(`/shared-dreams/trending?limit=${limit}&timeWindow=${timeWindow}`),
+    getSharedDreamsByLocation: (city, limit = 10) =>
+      api.get(`/shared-dreams/location/${city}?limit=${limit}`),
+    getSharedDreamsByTheme: (theme, limit = 10) =>
+      api.get(`/shared-dreams/theme/${theme}?limit=${limit}`),
+    getSharedDreamDetails: (sharedDreamId) =>
+      api.get(`/shared-dreams/${sharedDreamId}`),
+    createSharedDream: (data) =>
+      api.post("/shared-dreams", data),
+    addUserToSharedDream: (sharedDreamId, userId) =>
+      api.post(`/shared-dreams/${sharedDreamId}/users`, { userId }),
+    addPostToSharedDream: (sharedDreamId, postId) =>
+      api.post(`/shared-dreams/${sharedDreamId}/posts`, { postId }),
+    updateSharedDreamStatus: (sharedDreamId, status, notes = "") =>
+      api.put(`/shared-dreams/${sharedDreamId}/status`, { status, notes }),
+    getSharedDreamStats: () =>
+      api.get("/shared-dreams/stats/all"),
+  },
+
   // Comment-related APIs
   comments: {
     getPostComments: (postId) => api.get(`/comments/post/${postId}`),
