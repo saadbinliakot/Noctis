@@ -13,7 +13,7 @@ const SharedDreamPanel = () => {
   useEffect(() => {
     const fetchDreams = async () => {
       try {
-        const data = await api.analytics.getSharedDreams(5);
+        const data = await api.sharedDreams.getTrendingSharedDreams(5);
         setDreams(data.sharedDreams || []);
       } catch (error) {
         console.error('Failed to fetch shared dreams:', error);
