@@ -7,7 +7,7 @@ import { createNotification } from "./notificationController.js";
 export const sendFriendRequest = async (req, res) => {
   try {
     const { receiverId } = req.body;
-    const senderId = req.user?.id || req.body.senderId;
+    const senderId = req.user?._id || req.user?.id || req.body.senderId;
 
     if (!senderId || !receiverId) {
       return res
@@ -15,7 +15,7 @@ export const sendFriendRequest = async (req, res) => {
         .json({ message: "senderId and receiverId are required" });
     }
 
-    if (senderId === receiverId) {
+    if (senderId.toString() === receiverId.toString()) {
       return res
         .status(400)
         .json({ message: "Cannot send friend request to yourself" });
@@ -83,7 +83,11 @@ export const sendFriendRequest = async (req, res) => {
 export const acceptFriendRequest = async (req, res) => {
   try {
     const { requestId } = req.params;
-    const userId = req.user?.id || req.body.userId;
+    const userId = (
+      req.user?._id ||
+      req.user?.id ||
+      req.body.userId
+    )?.toString();
 
     if (!userId) {
       return res.status(400).json({ message: "userId is required" });
@@ -143,7 +147,11 @@ export const acceptFriendRequest = async (req, res) => {
 export const rejectFriendRequest = async (req, res) => {
   try {
     const { requestId } = req.params;
-    const userId = req.user?.id || req.body.userId;
+    const userId = (
+      req.user?._id ||
+      req.user?.id ||
+      req.body.userId
+    )?.toString();
 
     if (!userId) {
       return res.status(400).json({ message: "userId is required" });
@@ -182,13 +190,17 @@ export const rejectFriendRequest = async (req, res) => {
 export const removeFriend = async (req, res) => {
   try {
     const { friendId } = req.params;
-    const userId = req.user?.id || req.body.userId;
+        const userId = (
+      req.user?._id ||
+      req.user?.id ||
+      req.body.userId
+    )?.toString();
 
     if (!userId) {
       return res.status(400).json({ message: "userId is required" });
     }
 
-    if (userId === friendId) {
+    if (userId.toString() === friendId.toString()) {
       return res.status(400).json({ message: "Cannot remove yourself as a friend" });
     }
 
@@ -205,6 +217,13 @@ export const removeFriend = async (req, res) => {
     if (!result) {
       return res.status(404).json({ message: "Friendship not found" });
     }
+    await UserModel.findByIdAndUpdate(userId, {
+      $inc: { totalFriends: -1 },
+    });
+
+    await UserModel.findByIdAndUpdate(friendId, {
+      $inc: { totalFriends: -1 },
+    });
 
     res.json({
       message: "Friend removed successfully",
@@ -238,7 +257,7 @@ export const getPendingRequests = async (req, res) => {
 // Get friendship status between the current user and a target user
 export const getFriendshipStatus = async (req, res) => {
   try {
-    const currentUserId = req.user?.id;
+    const currentUserId = req.user?._id || req.user?.id;
     const targetUserId = req.params.targetUserId;
 
     if (!currentUserId) {
