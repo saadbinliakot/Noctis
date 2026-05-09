@@ -6,12 +6,12 @@ import { useAuth } from '@/context/AuthContext';
 import { api } from '@/services/api';
 
 const badgeEmojis: Record<string, string> = {
-  first_post: '🔮',
-  streak_7: '🦉',
-  lucid_10: '✨',
-  shared_dream: '🌀',
-  streak_30: '🕳️',
-  myth_5: '📜',
+  night_dreamer: '🌙',
+  social_butterfly: '🦋',
+  lucid_master: '✨',
+  storyteller: '📖',
+  trending_creator: '🔥',
+  community_leader: '👑',
 };
 
 const BadgePanel = () => {
@@ -21,20 +21,13 @@ const BadgePanel = () => {
 
   useEffect(() => {
     const fetchUserBadges = async () => {
-      if (!user?.badges) {
+      if (!user?.id) {
         setIsLoading(false);
         return;
       }
 
       try {
-        // temporary
-        const badges: Badge[] = user.badges.map((badgeName, index) => ({
-          _id: `badge_${index}`,
-          badgeName: badgeName,
-          description: `Earned the ${badgeName} badge`,
-          criteria: badgeName.toLowerCase().replace(/\s+/g, '_')
-        }));
-
+        const badges = await api.badges.getUserBadges(user.id);
         setUserBadges(badges);
       } catch (error) {
         console.error('Failed to fetch user badges:', error);

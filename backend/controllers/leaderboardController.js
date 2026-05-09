@@ -27,15 +27,23 @@ export const getOverallLeaderboard = async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "reactions",
+          localField: "_id",
+          foreignField: "userId",
+          as: "userReactions",
+        },
+      },
+      {
         $addFields: {
           postCount: { $size: "$userPosts" },
           badgeCount: { $size: "$userBadges" },
-          totalReactions: { $sum: "$userPosts.reactionCount" },
+          totalReactions: { $size: "$userReactions" },
           score: {
             $add: [
               { $multiply: [{ $size: "$userPosts" }, 10] }, // 10 points per post
               { $multiply: [{ $size: "$userBadges" }, 25] }, // 25 points per badge
-              { $multiply: [{ $sum: "$userPosts.reactionCount" }, 1] }, // 1 point per reaction
+              { $multiply: [{ $size: "$userReactions" }, 1] }, // 1 point per reaction
               { $multiply: ["$totalFriends", 5] }, // 5 points per friend
             ],
           },
@@ -81,11 +89,19 @@ export const getPostLeaderboard = async (req, res) => {
 
     const leaderboard = await Post.aggregate([
       {
+        $lookup: {
+          from: "reactions",
+          localField: "_id",
+          foreignField: "postId",
+          as: "reactions",
+        },
+      },
+      {
         $group: {
           _id: "$userId",
           postCount: { $sum: 1 },
-          totalReactions: { $sum: "$reactionCount" },
-          avgReactions: { $avg: "$reactionCount" },
+          totalReactions: { $sum: { $size: "$reactions" } },
+          avgReactions: { $avg: { $size: "$reactions" } },
         },
       },
       {
@@ -133,12 +149,28 @@ export const getEngagementLeaderboard = async (req, res) => {
   try {
     const limit = req.query.limit || 20;
 
-    const leaderboard = await Post.aggregate([
+    const leaderboard = await Reaction.aggregate([
+      {
+        $lookup: {
+          from: "posts",
+          localField: "postId",
+          foreignField: "_id",
+          as: "post",
+        },
+      },
+      {
+        $unwind: "$post",
+      },
       {
         $group: {
-          _id: "$userId",
-          totalReactions: { $sum: "$reactionCount" },
-          postCount: { $sum: 1 },
+          _id: "$post.userId",
+          totalReactions: { $sum: 1 },
+          postCount: { $addToSet: "$post._id" },
+        },
+      },
+      {
+        $addFields: {
+          postCount: { $size: "$postCount" },
         },
       },
       {
@@ -375,12 +407,20 @@ export const getUserRank = async (req, res) => {
           },
         },
         {
+          $lookup: {
+            from: "reactions",
+            localField: "_id",
+            foreignField: "userId",
+            as: "userReactions",
+          },
+        },
+        {
           $addFields: {
             score: {
               $add: [
                 { $multiply: [{ $size: "$userPosts" }, 10] },
                 { $multiply: [{ $size: "$userBadges" }, 25] },
-                { $multiply: [{ $sum: "$userPosts.reactionCount" }, 1] },
+                { $multiply: [{ $size: "$userReactions" }, 1] },
                 { $multiply: ["$totalFriends", 5] },
               ],
             },
@@ -409,11 +449,22 @@ export const getUserRank = async (req, res) => {
       totalUsers = users.length;
       userRank = users.findIndex((u) => u._id.toString() === userId) + 1;
     } else if (category === "engagement") {
-      const users = await Post.aggregate([
+      const users = await Reaction.aggregate([
+        {
+          $lookup: {
+            from: "posts",
+            localField: "postId",
+            foreignField: "_id",
+            as: "post",
+          },
+        },
+        {
+          $unwind: "$post",
+        },
         {
           $group: {
-            _id: "$userId",
-            totalReactions: { $sum: "$reactionCount" },
+            _id: "$post.userId",
+            totalReactions: { $sum: 1 },
           },
         },
         {

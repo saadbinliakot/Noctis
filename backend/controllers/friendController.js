@@ -2,6 +2,7 @@ import FriendRequestModel from "../models/FriendRequestModel.js";
 import UserModel from "../models/UserModel.js";
 import PostModel from "../models/PostModel.js";
 import { createNotification } from "./notificationController.js";
+import { checkAndAwardBadge } from "./badgeController.js";
 
 // Send a friend request
 export const sendFriendRequest = async (req, res) => {
@@ -122,6 +123,10 @@ export const acceptFriendRequest = async (req, res) => {
     await UserModel.findByIdAndUpdate(friendRequest.senderId, {
       $inc: { totalFriends: 1 },
     });
+
+    // Check social badges for both users
+    await checkAndAwardBadge(userId, "social_butterfly");
+    await checkAndAwardBadge(friendRequest.senderId, "social_butterfly");
 
     // Create notification for sender
     await createNotification(

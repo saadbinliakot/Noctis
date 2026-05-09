@@ -1,6 +1,7 @@
 import Reaction from "../models/ReactionModel.js";
 import Post from "../models/PostModel.js";
 import { createNotification } from "./notificationController.js";
+import { checkAndAwardBadge } from "./badgeController.js";
 
 // Add or update a reaction on a post
 export const addReaction = async (req, res) => {
@@ -38,6 +39,10 @@ export const addReaction = async (req, res) => {
         postId,
         reactionType,
       });
+
+      // Award badges after the reaction lands
+      await checkAndAwardBadge(post.userId, "trending_creator");
+      await checkAndAwardBadge(post.userId, "community_leader");
 
       if (post.userId.toString() !== userId) {
         await createNotification(

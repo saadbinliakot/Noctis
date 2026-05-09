@@ -1,6 +1,7 @@
 import Badge from "../models/BadgeModel.js";
 import User from "../models/UserModel.js";
 import Post from "../models/PostModel.js";
+import Reaction from "../models/ReactionModel.js";
 import Notification from "../models/NotificationModel.js";
 
 // Badge definitions
@@ -52,9 +53,27 @@ const BADGE_DEFINITIONS = {
     description: "Had a post with 50+ reactions",
     icon: "🔥",
     requirement: async (userId) => {
-      // This would require aggregating reactions from ReactionModel
-      // For now, simplified check
-      return true;
+      const postsWithReactions = await Post.aggregate([
+        { $match: { userId } },
+        {
+          $lookup: {
+            from: "reactions",
+            localField: "_id",
+            foreignField: "postId",
+            as: "reactions",
+          },
+        },
+        {
+          $addFields: {
+            reactionCount: { $size: "$reactions" },
+          },
+        },
+        {
+          $match: { reactionCount: { $gte: 50 } },
+        },
+        { $limit: 1 },
+      ]);
+      return postsWithReactions.length > 0;
     },
   },
   community_leader: {
@@ -62,10 +81,28 @@ const BADGE_DEFINITIONS = {
     description: "Received 100+ total reactions",
     icon: "👑",
     requirement: async (userId) => {
-      // This would require aggregating all reactions for user's posts
-      return true;
+      const reactionCount = await Reaction.aggregate([
+        {
+          $lookup: {
+            from: "posts",
+            localField: "postId",
+            foreignField: "_id",
+            as: "post",
+          },
+        },
+        {
+          $unwind: "$post",
+        },
+        {
+          $match: { "post.userId": userId },
+        },
+        {
+          $count: "totalReactions",
+        },
+      ]);
+      return reactionCount.length > 0 && reactionCount[0].totalReactions >= 100;
     },
-  },
+  }
 };
 
 // Check and award badge

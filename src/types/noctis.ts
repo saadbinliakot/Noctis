@@ -54,9 +54,12 @@ export interface FriendRequest {
 
 export interface Badge {
   _id: string;
-  badgeName: string;
+  userId: string;
+  badgeType: string;
+  title: string;
   description: string;
-  criteria: string;
+  icon: string;
+  earnedAt: string;
 }
 
 export interface SharedDream {
